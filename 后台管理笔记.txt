@@ -1,0 +1,397 @@
+尚硅谷VUE项目——后台管理项目
+# 技术架构
+  vue+webpack+vuex+vue-router+axios+scss+elementUI
+  - elementUI
+  - 菜单权限
+  - 按钮权限
+  - 数据可视化
+    - echarts数据可视化开源库
+    - canvas画布
+    - svg矢量图
+1.什么是后台管理系统项目  
+ -开发一个可视化的项目 实现对数据库的增删改查-可视化操作数据库
+ -根据不同的角色（老板、员工）看到的，操作内容是不同的
+ -对于后台管理系统项目，一般而言不需要注册
+2.模板介绍
+  托管与git 字节大神PanjiaChen
+  简洁版：https://github.com/PanJiaChen/vue-admin-template【基于改模板二次开发】
+  加强版：https://github.com/PanJiaChen/vue-element-admin
+
+  解压后文件夹缺少项目的依赖
+  安装node.js 
+    安装 https://blog.csdn.net/Small_Yogurt/article/details/104968169
+    修改路径时要以管理员身份运行cmd 仅仅是这个问题 导致安装位置不正确 每一步都报错
+  安装npm cnpm
+    安装 https://www.cnblogs.com/uniapp/p/13115877.html
+    安装失败 https://blog.csdn.net/qq_42780155/article/details/119025638
+    cnpm -v失败 https://blog.csdn.net/qq_41008918/article/details/112284688
+  npm install失败 【cnpm:无法加载文件】https://www.cnblogs.com/500m/p/11634969.html
+  npm run dev 启动
+
+  build
+    --index.js webpack配置文件【很少修改】
+  mock
+    --mock数据的文件夹【模拟一些假的mockjs实现的】实际开发用真实的接口
+  node_modules
+    --项目依赖的模块
+  public
+    --icon图标，静态页面，public文件夹里面经常放置一些静态资源，项目打包时webpack不会编译这个文件夹，原封不动打包到dist文件夹里
+  src
+    --程序员代码
+    --api文件夹：涉及请求相关的
+    --assets文件夹：放置一些静态资源（一般共享），放在assets文件夹里面的静态资源在webpack打包的时候，会进行编译
+    --components文件夹：一般放置非路由组件获取全局变量
+    --icons文件夹：放置svg矢量图
+    --layout文件夹：放置一些组件与混入
+    --router文件夹：与路由相关的
+    --store文件夹：一定是与vuex相关的
+    --styles文件夹：与样式相关
+    --utils文件夹：request.js axious二次封装文件
+    --views文件夹：放置路由组件
+    --App.vue:跟组件
+    --main.js:入口文件
+    --permission.js:与导航守卫相关
+    --settings.js:项目配置项文件
+  tests
+    --测试文件 
+  .editorconfig
+    --编程风格的配置文件
+  .env.development
+    --开发环境的配置文件
+  .env.production
+    --上线环境的配置文件
+  .env.staging
+    --测试环境的配置文件
+  .eslintignore
+    --eslint校验忽略文件
+  .eslintrc.js
+    --eslint配置文件
+  .gitignore
+    --git忽略文件
+  .travis.yml
+    --
+  babel.config.js
+    --babel配置文件
+  jest.config.js
+    --jest测试环境配置文件
+  jsconfig.json 
+    --src别名文件
+  LICENSE
+    --版权声明
+  package-lock.json
+  package.json 
+  postcss.config.js 
+    --css相关配置文件
+  README-zh.md 
+  README.md
+    --说明
+  ve.config.js
+
+后台登录系统API接口在线文档：
+http://39.98.123.211:8170/swagger-ui.html
+http://39.98.123.211:8216/swagger-ui.html
+
+3.完成登录页面
+  --静态组件完成
+    --src/views/login
+  --书写API（换成真实的接口）
+  --axious二次封装
+  --换成真实接口之后需要解决代理跨域问题
+
+4.退出登录
+  layout/components/Navbar.vue
+
+5.路由的搭建
+  src/router/index.js
+
+6.完成品牌管理静态组件
+
+7.完成品牌管理列表展示
+  --书写相关的API接口
+
+8.添加品牌与修改品牌静态完成
+  --dialog  对话框 自定义内容
+  --form  表单
+  --upload  添加图片
+
+9.完成添加品牌功能
+  --书写相关API请求接口 src/api/product/tradeMark.js
+  --前台需要收集数据，给前台服务器提交数据（发请求）
+
+10.完成修改品牌功能
+  --src/views/product/tradeMark/index.vue
+  --updateTradeMark方法
+
+11.表单验证功能
+  --1.添加rules规则
+  --2.未表单添加rules属性，item添加prop属性
+  --elementUI提供表单验证功能（自定义验证规则--重点）
+
+12.删除品牌操作
+  --src/views/product/tradeMark/index.vue
+  --添加删除按钮点击事件
+  --点击删除后触发弹框 message Box
+  --删除后停留页注意加一个判断
+
+13.平台属性管理的三级联动静态组件
+  --src\views\product\Attr\index.vue
+  --src\components\CategorySelect\index.vue 全局组件 
+  --src\main.js
+
+14.获取数据动态的展示三级联动
+  --说明：三级联动数据 由上一级选择项决定，没有选择项，下一级则没有数据
+  --编写平台属性模块请求文件  src\api\product\attr.js
+
+15.三级联动完成 细节改进
+  --一级分类数据发生变换后，要将显示的二级、三级分类框清空;同理，二级分类的数据发生变化时，要清空三级分类数据。 src\components\CategorySelect\index.vue
+  --CategorySelect子组件给父组件传数据。同上，当一级分类id发生改变时，传递的二三级id要清空，当二级分类id发生改变时，三级分类id要清空。同时，仅在获取三级分类id时发请求  src\views\product\Attr\index.vue
+  遇到的问题：
+  1.getCategoryId(categoryId, level)  由于传递的数据类型为对象，所以参数要用{}包裹起来,否则，在解析时会无法解析参数
+
+16.平台属性管理动态展示属性
+  --获取平台属性接口  src\api\product\attr.js
+  --发请求获取数据  src\views\product\Attr\index.vue
+  --添加添加按钮 展示表格
+
+17.添加平台属性与修改属性静态组件
+  --细节  三级分类id未选择前，添加按钮处于禁用状态
+  --添加表单和表格
+
+18.收集平台属性的操作
+  --添加属性与属性值接口  src\api\product\attr.js
+  --收集数据  src\views\product\Attr\index.vue
+  注意：切忌在data当中收集数据，因为对象存储数据是无序存储
+
+19.收集平台属性值的操作
+  --细节 添加属性值按钮要在属性名输入框不为空时，才能点击，否则，要禁用
+
+20.解决取消按钮数据回显问题
+  --在每次点击添加属性按钮时，要清空输入数据
+
+21.修改属性的操作
+  --点击修改属性按钮前，对属性进行深拷贝  深拷贝、浅拷贝在面试出现频率很高，最好达到手写程度
+
+22.添加属性中的 查看模式与编辑模式 切换
+  --查看模式 显示span
+  --编辑模式 显示input
+  --注意：通过flag标记进行切换查看模式与编辑模式，但需要注意的是，一个属性flag没有办法控制全部的属性值的切换
+
+23.查看模式与编辑模式注意事项
+  --输入属性值不能为空
+  --输入属性值不能重复
+
+24.修改属性中，查看属性与编辑模式操作
+  --注意：怎么添加响应式属性
+
+25.表单元素自动聚焦的实现
+  --this.$nextTick(()=>{
+        //获取相应的input表单元素实现聚焦
+        this.$refs[index].focus();
+      })
+
+26.删除属性操作
+  --popconfirm气泡确认框
+  --点击确认后触发confirm事件 确定删除属性值
+
+27.添加属性与修改保存的操作
+  --添加保存按钮点击事件
+  --整理数据后，发请求
+
+28.完成按钮与三级联动可操作性
+  --展示表格被隐藏时，三级联动不可以使用，置灰
+  --关键变量isShowTable
+  --保存按钮 在没有属性值时置灰 不能操作
+
+29.SPU模块介绍
+  --参照JAVA可以把SPU和SKU理解为类与实例的关系
+
+30.完成SPU管理模块静态
+  --
+
+31.完成SPU列表展示
+  --spu列表接口
+  --HintButton全局组件
+
+32.完成SPU管理内容切换
+  --展示SPU列表结构
+  --添加SPU|修改SPU
+  --展示添加SKU结构
+
+33.完成spuForm静态
+  --细节：添加SPU按钮要在三级分类选择后才可以使用
+  --完成spuForm静态
+  --注意：在工作中时，也是先完成静态，再考虑业务逻辑
+
+34.spuForm业务的分析
+  --品牌数据  getTrademarkList接口 
+    /dev-api/admin/product/baseTrademark/getTrademarkList
+  --获取平台中全部的销售属性（3个）
+    /dev-api/admin/product/baseSaleAttrList
+  --获取某一个SPU信息
+    /dev-api/admin/product/getSpuById/5092
+  --获取SPU图片
+    /dev-api/admin/product/spuImageList/5092
+  --spuForm子组件发请求的位置：不能写在mounted里面，因为v-show只是控制子组件的隐藏与显示，子组件并没有卸载，mounted只能执行一次
+
+35.完成SpuForm获取服务器数据的操作
+  --
+
+36.完成spuForm数据的展示与收集
+  --
+
+37.完成销售属性的展示
+  --整个项目当中销售属性一共三个：颜色、尺码、版本
+
+38.完成spuForm照片墙图片的收集
+  --照片墙在删除图片的时候需要收集数据
+  --照片墙在添加图片的时候，需要收集数据
+
+39.完成添加属性的操作
+  --收集数据：baseSaleAttrId  saleAttrName  spuSaleAttrValueList
+  --什么时候收集数据
+  --收集到哪里  收集到SPU对象
+
+40.????????????????????????????????????????????????
+
+41.完成销售属性值展示与收集
+  --新增的销售属性值需要收集的字段  baseSaleAttrId  saleAttrValueName
+
+42.完成删除销售属性与销售属性值操作
+  --splice()数组删除的方法
+  --理解每一个row代表什么
+
+43.完成SpuForm组件的保存操作
+  --保存接口
+  --整理数据后，发请求
+  --保存后，回到那里
+
+44.完成添加SPU的业务
+  --清理数据，避免回显
+
+45.完成删除SPU
+  --删除细节处理
+
+46.完成添加SKU静态组件
+  --
+
+47.获取添加SKU的数据
+  --spuImageList spuSaleAttrList attrInfoList
+
+48.skuForm数据的展示与收集
+  --
+
+49.完成图片的展示与收集
+  --
+
+50.完成skuForm保存的操作
+  --整理skuInfo
+  --发请求
+
+51.完成SKU列表的展示
+  --发请求，获取sku列表数据
+  --展示数据
+
+52.完成查看SKU列表的loading效果
+  --loading效果目前只能展示一次
+  --快速切换查看sku会发现上一次的数据回显
+
+53-57？？？？？？？？？？？？？？？？？？？
+
+58.完成SKU模块数据的展示
+  --发请求
+  --展示数据
+
+59.完成SKU的上架与下架操作
+  --注意：该项目中的按钮的方向与上下对应，即按钮向上表示，当前为上架状态，点击按钮变成下架状态并提示下架成功；按钮向下表示，当前为下架状态，点击按钮变为上架状态，提示上架成功（因为给向上的按钮绑定的是cancel()方法，向下的按钮绑定了sale()方法,当然，也可以根据需求调整）
+
+60.完成SKU查看详情业务
+  --
+
+61.深度选择器
+  -->>> 一般用于原生css
+  --/deep/  一般用于less
+  --::v-deep  一般用于scss
+
+数据可视化基础
+  VuePress 搭建文档 需要安装依赖
+  Level1_Canvas/Svg
+  Level2_ECharts
+
+62.首页-数据可视化模块
+  --分为上中下三个部分
+  --阿里图标库
+  --安装依赖 终端/新建终端(ctrl+shift+`) cnpm install --save echarts
+  --学习dayjs
+
+63.权限管理
+  --用户、角色、菜单
+  --mock模拟请求获取数据
+    在mock中导入data.json文件并新建home.js，模拟请求数据
+    在mock\index.js导入home
+    在vue.config.js开启mock数据after:require('./mock/mock-server.js'),
+    创建src\utils\mockRequest.js，mock请求文件
+    src\store\modules\home.js 将数据存储到VUEX中
+    引入：import { mapState } from "vuex";
+    获取数据：...mapState({listState: (state) => state.home.list}),
+
+
+64.菜单权限的业务分析
+  --不同的用户、角色可以看到的菜单内容是不一样的
+  --如何实现菜单的权限？
+    --不同的用户（角色）在登录时会向服务器发请求，服务器会返回用户相应的菜单权限信息，因此，根据服务器返回的数据，可以动态的设置路由，可以根据不同的用户展示不同的菜单。
+    --该项目路由文件：src\router\index.js 【拆分路由：常量路由、异步路由、任意路由】
+    --存储服务器返回用户信息文件：src\store\modules\user.js 【存储服务器返回的用户信息】【】
+
+65.按钮权限
+
+
+拓展程序 Vue.js devtools
+
+
+
+
+2.理解属性前：的用法
+3.理解响应式数据与普通数据的区别
+  this.$set(row,'inputVisible',true);
+  row.inputVisible=true;
+4.理解方法：every() some()  splice()  reduce() mounted() filter()
+  属性： :show="" :visible.sync="true|false" :data=''
+  Object.assign(this._data,this.$options.data());
+  ref的作用  
+5.理解style scoped用法 深度选择器
+6.template的多种用法
+7.配置真实的发请求的顺序；配置模拟发请求mock的顺序
+8.mounted() computed 用法 可执行次数
+9.首页数据可视化 动态展示优化
+
+报错|遗留问题：
+1.问题：The value for a v-bind expression cannot be empty. Found in "v-bind:"
+  DONE解决方案：<el-table style="width: 100%" border height :data="list">
+    冒号在data前 其他地方不可乱放
+2.图片上传失败 发送请求成功 但返回结果失败  --重大事件
+  DONE解决：上传成功 怀疑是接口问题
+3.问题：添加sku保存按钮 "Error: 失败" 请求失败，控制面板查看请求code=201,data=null
+  src\views\product\Spu\SkuForm\index.vue
+  DONE 不知道为什么 就成功了
+
+4.问题：首页card的折线图 刷新后不显示 原因：vuex数据页面刷新就获取不到 同理还有这个报错 Cannot read properties of undefined (reading 'slice')
+
+5.src\views\product\Attr\index.vue  平台属性管理删除属性操作未完成
+  DONE 添加接口，发请求
+5.SKU管理table 操作栏删除按钮功能未完成
+  DONE 
+6.报错：Uncaught TypeError: Cannot read properties of null (reading 'match')
+  DONE src\components\Breadcrumb\index.vue  a标签meiyou href 时的报错 参考博客https://blog.csdn.net/weixin_46063825/article/details/118520776
+7.Spu管理 添加sku后，数据回显
+  DONE OBJ清空data
+8.???不同角色登录，菜单权限不同已完成，按钮权限未完成
+  登录说明：src\utils\validate.js 该文件validUsername()方法实现用户名存在的判断，但是注意的是该方法中并没有发请求
+DONE 目前只实现了用户管理页的按钮权限管理 给相应按钮添加该代码 v-show="$store.state.user.buttons.indexOf('btn.User.assgin')!=-1"
+9.4月16发现重大缺陷 菜单中的商品管理的品牌管理不显示了
+  最后找到原因是因为登录返回的菜单权限的标志名是Trademark，
+  而本地该菜单的名称是TradeMark，
+  导致computedAsyncRoutes在比对菜单的时候结果为-1 比对位置：\src\store\modules\user.js  78行
+  即Trademark与TradeMark不匹配，匹配管理没有加入返回的菜单路由中，
+  所以页面的菜单没有显示品牌管理
+  解决：将name Trademark改成TradeMark即可，位置\src\router\index.js 73行
+
